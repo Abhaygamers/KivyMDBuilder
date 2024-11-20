@@ -1,0 +1,69 @@
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+
+// Set canvas dimensions
+canvas.width = 320;
+canvas.height = 480;
+
+// Load images
+const bird = new Image();
+const bg = new Image();
+const fg = new Image();
+const pipeNorth = new Image();
+const pipeSouth = new Image();
+
+bird.src = "https://www.example.com/bird.png"; // Replace with the actual URL
+bg.src = "https://www.example.com/bg.png"; // Replace with the actual URL
+fg.src = "https://www.example.com/fg.png"; // Replace with the actual URL
+pipeNorth.src = "https://www.example.com/pipeNorth.png"; // Replace with the actual URL
+pipeSouth.src = "https://www.example.com/pipeSouth.png"; // Replace with the actual URL
+
+const gap = 85;
+const constant = pipeNorth.height + gap;
+
+// Bird position
+let bX = 10;
+let bY = 150;
+
+// Gravity
+const gravity = 1.5;
+
+// Score
+let score = 0;
+
+// Audio files
+const fly = new Audio();
+const scor = new Audio();
+
+fly.src = "https://www.example.com/fly.mp3"; // Replace with the actual URL
+scor.src = "https://www.example.com/score.mp3"; // Replace with the actual URL
+
+// Key down event
+document.addEventListener("keydown", moveUp);
+
+function moveUp() {
+    bY -= 25;
+    fly.play();
+}
+
+// Pipe coordinates
+const pipe = [];
+
+pipe[0] = {
+    x: canvas.width,
+    y: 0
+};
+
+// Draw images
+function draw() {
+    ctx.drawImage(bg, 0, 0);
+    
+    for (let i = 0; i < pipe.length; i++) {
+        ctx.drawImage(pipeNorth, pipe[i].x, pipe[i].y);
+        ctx.drawImage(pipeSouth, pipe[i].x, pipe[i].y + constant);
+        
+        pipe[i].x--;
+        
+        if (pipe[i].x == 125) {
+            pipe.push({
+   
